@@ -21,7 +21,6 @@ def crear_grafo():
         if opcion == 'n':
             break
 
-        # Ingresar múltiples vértices conectados al nodo inicial
         conexiones = input(f"Inserta los vértices a conectar con {nodo_inicial}, separados por espacio (Ejemplo: C2 C3 C4): ").strip().split()
 
         for nodo in conexiones:
@@ -34,12 +33,28 @@ def crear_grafo():
 
     return G
 
-def dibujar_grafo(G):
+def crear_subgrafo_inducido(G):
+    nodos_subgrafo = input("\nIngresa los vértices del subgrafo inducido separados por espacio (Ejemplo: C1 C3 C5): ").strip().split()
+
+    # Verificar que los nodos existan en el grafo original
+    nodos_subgrafo = [nodo for nodo in nodos_subgrafo if nodo in G.nodes]
+
+    # Crear el subgrafo inducido
+    subG = G.subgraph(nodos_subgrafo).copy()
+
+    return subG
+
+def dibujar_grafo(G, title="Grafo"):
     plt.figure(figsize=(6,6))
     nx.draw(G, with_labels=True, node_color='skyblue', node_size=2000, edge_color='black', font_size=12)
+    plt.title(title)
     plt.show()
 
-# Crear y mostrar el grafo
+# Crear el grafo original
 grafo = crear_grafo()
-dibujar_grafo(grafo)
+dibujar_grafo(grafo, "Grafo Original")
+
+# Crear y mostrar el subgrafo inducido
+subgrafo = crear_subgrafo_inducido(grafo)
+dibujar_grafo(subgrafo, "Subgrafo Inducido")
 
